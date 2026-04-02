@@ -8,6 +8,7 @@ import Login from "./screens/Login/Login";
 import CrearCuenta from "./screens/CrearCuenta/CrearCuenta";
 import PaginaNoEncontrada from "./screens/PaginaNoEncontrada/PaginaNoEncontrada";
 import Footer from "./components/Footer/Footer";
+import ResultadoBusqueda from "./screens/ResultadoBusqueda/ResultadoBusqueda";
 
 function App() {
   let menu = [
@@ -31,6 +32,7 @@ function App() {
           <Route path="/peliculas" component={Peliculas} />
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
+          <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>
         <Footer/>
