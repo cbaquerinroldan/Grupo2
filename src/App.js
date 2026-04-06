@@ -10,6 +10,8 @@ import PaginaNoEncontrada from "./screens/PaginaNoEncontrada/PaginaNoEncontrada"
 import Footer from "./components/Footer/Footer";
 import ResultadoBusqueda from "./screens/ResultadoBusqueda/ResultadoBusqueda";
 import Favoritos from"./screens/Favoritos/Favoritos";
+import Pelicula from "./components/Pelicula/Pelicula"
+import Buscador from "./components/Buscador/Buscador";
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
     { nombre: "Favoritos", path: "/favoritos" },
     { nombre: "Login", path: "/login" },
     { nombre: "Crear Cuenta", path: "/crearcuenta" }
+    
   ];
 
   return (
@@ -27,11 +30,12 @@ function App() {
  
         <p>UdeSA Movies</p>
         <Header elementosMenu={menu} />
-        <Home/>
+        <Buscador/>
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/series" component={Series} />
           <Route path="/peliculas" component={Peliculas} />
+          <Route path="/Pelicula/id/:id" component={Pelicula} />
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
           <Route path="/favoritos" component={Favoritos} />

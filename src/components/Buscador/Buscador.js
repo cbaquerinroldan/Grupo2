@@ -4,25 +4,27 @@ import {withRouter} from "react-router-dom";
 class Buscador extends Component {
     constructor(props) { 
     super(props);
-    this.state = {valor: ''};
+    this.state ={valor: ''};
 }
 
 ejecutarBusqueda(e){
     e.preventDefault();
     this.props.history.push("/resultadobusqueda/"+ this.state.valor)
-
-controlarCambios(event){
-    this.setState({valor: event.target.value})
 }
-this.render(){
-    return(
-        <form onSubmit={(e)=> this.ejecutarBusqueda(e)}>
-            <label>Name:</label>
-            <input type= "text" onChange={(e)} => this ......bla bla bla 
-
-    )
-}
+controlarCambios(e){
+    this.setState({valor: e.target.value})
 }
 
+  render() {
+    return (
+      <form onSubmit={(e) => this.ejecutarBusqueda(e)}>
+        <label className="search-form">Buscar:</label>
+        <input type="text" value={this.state.valor}
+         onChange={(e) => this.controlarCambios(e)} />
+        <button type="submit">Buscar</button>
+      </form>
+    );
+  }
+}
 
-export default withRouter(Buscador)
+export default withRouter(Buscador);

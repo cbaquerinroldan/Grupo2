@@ -1,15 +1,15 @@
-import React,{ Component } from "react";
-import { Link } from "react-router-dom"; 
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-class Card extends Component{
-    constructor(props) {
+class Card extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       verMas: false
     };
-}
+  }
 
- cambiarEstado() {
+  cambiarEstado() {
     this.setState({
       verMas: this.state.verMas === true ? false : true
     });
@@ -18,33 +18,28 @@ class Card extends Component{
 
   render() {
     return (
-      <article className="AGREGAR CLASE">
-        <img src= {`https://image.tmdb.org/t/p/w342/${this.props.poster_path}.jpg`} alt={this.props.title} />
-        <h2>{this.props.title}</h2>
+      <article className="single-card-movie">
+
+        <Link to={`/Pelicula/id/${this.props.datos.id}`}>
+          <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${this.props.datos.poster_path}`} alt={this.props.datos.title} />
+        </Link>
+
+        <h5 className="card-title">{this.props.datos.title}</h5>
+
         {
           this.state.verMas === true ?
-          <section>
-            <p>{this.props.overview}</p>
-          </section>
-          :
-          null
+            <section>
+              <p className="card-text">{this.props.datos.overview}</p>
+            </section>
+            :
+            null
         }
-        <Link to={`/Pelicula/id/${this.props.id}`}>Ir a Detalle</Link>
 
-
-        <button className="Agregar CLase" onClick={() => this.cambiarEstado()}>
-          {this.state.verMas ? "Ver menos" : "Ver más"}
+        <button className="btn btn-primary" onClick={() => this.cambiarEstado()}>
+          {this.state.verMas ? "Ver menos" : "Ver descripción"}
         </button>
 
 
-        {
-          this.state.verMas === true ?
-          <section>
-            <p>{this.props.overview}</p>
-          </section>
-          :
-          null
-        }
       </article>
     );
   }
