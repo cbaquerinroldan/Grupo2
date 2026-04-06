@@ -9,6 +9,8 @@ import CrearCuenta from "./screens/CrearCuenta/CrearCuenta";
 import PaginaNoEncontrada from "./screens/PaginaNoEncontrada/PaginaNoEncontrada";
 import Footer from "./components/Footer/Footer";
 import ResultadoBusqueda from "./screens/ResultadoBusqueda/ResultadoBusqueda";
+import Favoritos from"./screens/Favoritos/Favoritos";
+
 
 function App() {
   let menu = [
@@ -25,13 +27,14 @@ function App() {
  
         <p>UdeSA Movies</p>
         <Header elementosMenu={menu} />
-
+        <Home/>
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/series" component={Series} />
           <Route path="/peliculas" component={Peliculas} />
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
+          <Route path="/favoritos" component={Favoritos} />
           <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>
