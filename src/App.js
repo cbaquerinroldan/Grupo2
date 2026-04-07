@@ -28,14 +28,12 @@ function App() {
   return (
     <BrowserRouter>
  
-        <p>UdeSA Movies</p>
         <Header elementosMenu={menu} />
-        <Buscador/>
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/series" component={Series} />
           <Route path="/peliculas" component={Peliculas} />
-          <Route path="/Pelicula/id/:id" component={Pelicula} />
+          <Route path="/pelicula/id/:id" component={Pelicula} />
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
           <Route path="/favoritos" component={Favoritos} />
