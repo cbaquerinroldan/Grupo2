@@ -32,8 +32,8 @@ componentDidMount(){
 
     </section>
 
-    <Link to="/ver-todas/movies/popular">
-       <button>Ver todas</button>
+    <Link to="/vertodas/tv/top_rated">
+    <button>Ver todas</button>
     </Link>
     </div>
   );

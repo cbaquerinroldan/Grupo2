@@ -40,6 +40,9 @@ function App() {
           <Route path="/favoritos" component={Favoritos} />
           <Route path="/vertodas" component={VerTodas} />
           <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
+          <Route path="/ver-populares" render={() => <VerTodas url="URL_POPULARES" />} />
+          <Route path="/ver-cartelera" render={() => <VerTodas url="URL_CARTELERA" />} />
+          <Route path="/ver-series" render={() => <VerTodas url="URL_SERIES" />} />
 
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>

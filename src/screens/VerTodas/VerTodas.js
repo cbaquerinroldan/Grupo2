@@ -12,14 +12,14 @@ class VerTodas extends Component {
 
  
 componentDidMount(){
-    fetch("")
+    fetch(this.props.url)
       .then(response => response.json())
       .then(data => this. setState({
         datos:data.results
       }))
       .catch(error => console.log(error))
   }
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
   render() {
     return (
       <div className="container">
