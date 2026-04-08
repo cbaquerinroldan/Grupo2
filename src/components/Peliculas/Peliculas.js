@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Card/Card"
+import { Link } from "react-router-dom";
 
 class Peliculas extends Component {
     constructor(props){
@@ -23,12 +24,17 @@ componentDidMount(){
 
     <section className="row cards">
       
-      {this.state.datos.map((movie) => (
+      {this.state.datos.filter((movie, i) => i < 4)
+      .map((movie) => (
           <Card key={movie.id} datos={movie} />
         ))
       }
 
     </section>
+
+    <Link to="/ver-todas/movies/popular">
+       <button>Ver todas</button>
+    </Link>
     </div>
   );
 }

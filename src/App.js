@@ -12,6 +12,7 @@ import ResultadoBusqueda from "./screens/ResultadoBusqueda/ResultadoBusqueda";
 import Favoritos from"./screens/Favoritos/Favoritos";
 import Pelicula from "./components/Pelicula/Pelicula"
 import Buscador from "./components/Buscador/Buscador";
+import VerTodas from "./screens/VerTodas/VerTodas";
 
 
 function App() {
@@ -37,7 +38,9 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
           <Route path="/favoritos" component={Favoritos} />
+          <Route path="/vertodas" component={VerTodas} />
           <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
+
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>
         <Footer/>
