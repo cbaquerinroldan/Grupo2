@@ -24,7 +24,10 @@ class Header extends Component{
         return (
 
             <div className="container">
-                <h1>UdeSA Movies</h1>
+                <section className="sectionTitulo">
+                    <h1 className= "cinefuria">Cinefuria UdeSA</h1>
+                    <img className="logo" src="./img/imgCinefuria.jpeg" alt="Logo"></img>
+                </section>
                 <nav>
 
                     <ul className="nav nav-tabs my-4">

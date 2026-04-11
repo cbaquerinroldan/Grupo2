@@ -6,6 +6,26 @@ nav {
     border-radius: 4px;
     margin-bottom: 20px;
 }
+.sectionTitulo{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px ;
+}
+.cinefuria{
+    padding-top: 7px;
+    font-family: 'Nosifer', cursive;
+    color: orange;
+    text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow;
+}
+.logo{
+    border-radius: 10px;
+    width: 90px;
+    height: 90px;
+}
+
+.corazon{
+    margin-left: 20px;
+}
 .nav {
     margin: 0 !important;
 }

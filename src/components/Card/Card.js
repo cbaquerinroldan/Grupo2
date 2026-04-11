@@ -5,13 +5,19 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      verMas: false
+      verMas: false,
+      favorito: true
     };
   }
 
-  cambiarEstado() {
+  cambiarEstadoDesc() {
     this.setState({
       verMas: this.state.verMas === true ? false : true
+    });
+  }
+cambiarEstadoFav() {
+    this.setState({
+      favorito: this.state.favorito === true ? false : true
     });
   }
 
@@ -21,7 +27,8 @@ class Card extends Component {
         
       <article className="single-card-movie">
 
-        <Link to={`/pelicula/id/${this.props.datos.id}`}>
+{/* QUEDA COMPLETAR BIEN ESTA RUTA CUANDO SE HAGA LA PGINA DE DETALLE */}
+        <Link to={`/detalle/${this.props.datos.tipo}/${this.props.datos.id}`}>
           <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${this.props.datos.poster_path}`} alt={this.props.datos.title} />
         </Link>
         <div class="cardBody">
@@ -36,8 +43,11 @@ class Card extends Component {
             null
         }
 
-        <button className="btn btn-primary" onClick={() => this.cambiarEstado()}>
+        <button className="btn btn-primary" onClick={() => this.cambiarEstadoDesc()}>
           {this.state.verMas ? "Ver menos" : "Ver descripción"}
+        </button>
+        <button className="btn alert-primary corazon" onClick={() => this.cambiarEstadoFav()}>
+          {this.state.favorito ? "♥️" : "🩶"}
         </button>
 
 </div>

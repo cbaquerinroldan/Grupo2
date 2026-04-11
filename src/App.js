@@ -10,8 +10,7 @@ import PaginaNoEncontrada from "./screens/PaginaNoEncontrada/PaginaNoEncontrada"
 import Footer from "./components/Footer/Footer";
 import ResultadoBusqueda from "./screens/ResultadoBusqueda/ResultadoBusqueda";
 import Favoritos from"./screens/Favoritos/Favoritos";
-import Pelicula from "./components/Pelicula/Pelicula"
-import Buscador from "./components/Buscador/Buscador";
+import Detalle from "./screens/Detalle/Detalle"
 import VerTodas from "./screens/VerTodas/VerTodas";
 
 
@@ -34,16 +33,12 @@ function App() {
           <Route path="/" exact={true} component={Home} />
           <Route path="/series" component={Series} />
           <Route path="/peliculas" component={Peliculas} />
-          <Route path="/pelicula/id/:id" component={Pelicula} />
+          <Route path="/detalle/:tipo/:id" component={Detalle} />
           <Route path="/login" component={Login} />
           <Route path="/crearcuenta" component={CrearCuenta} />
           <Route path="/favoritos" component={Favoritos} />
-          <Route path="/vertodas" component={VerTodas} />
           <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
-          <Route path="/ver-populares" render={() => <VerTodas url="URL_POPULARES" />} />
-          <Route path="/ver-cartelera" render={() => <VerTodas url="URL_CARTELERA" />} />
-          <Route path="/ver-series" render={() => <VerTodas url="URL_SERIES" />} />
-
+          <Route path="/vertodas/:tipo/:cate" component={VerTodas} />
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>
         <Footer/>

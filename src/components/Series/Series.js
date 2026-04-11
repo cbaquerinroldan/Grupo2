@@ -6,7 +6,8 @@ class Series extends Component {
     constructor(props){
     super(props);
     this.state = {
-      datos:[ ]
+      datos:[ ],
+      cargando:true
     }
   }
 
@@ -14,7 +15,8 @@ componentDidMount(){
     fetch("https://api.themoviedb.org/3/tv/top_rated?api_key=16a67828c6cd8c48f7481662c83f83ff")
       .then(response => response.json())
       .then(data => this.setState({
-          datos: data.results}))
+          datos: data.results,
+          cargando:false}))
       .catch(error => console.log(error))
   }
    render() {
@@ -32,9 +34,9 @@ componentDidMount(){
 
     </section>
 
-    <Link to="/vertodas/tv/top_rated">
-    <button>Ver todas</button>
-    </Link>
+      <Link to="/vertodas/tv/top_rated">
+          <button className="btn btn-primary">Ver todas</button>
+        </Link>
     </div>
   );
 }

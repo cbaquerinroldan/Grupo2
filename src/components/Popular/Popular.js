@@ -6,7 +6,8 @@ class Popular extends Component {
   constructor(props){
     super(props);
     this.state = {
-      datos:[ ]
+      datos:[ ],
+      cargando:true
     }
   }
 
@@ -14,7 +15,8 @@ componentDidMount(){
     fetch("https://api.themoviedb.org/3/movie/popular?api_key=b545a645aca9ca390f2bb637dff787e6")
       .then(response => response.json())
       .then(data => this.setState({
-          datos: data.results}))
+          datos: data.results,
+          cargando:false}))
       .catch(error => console.log(error))
   }
    render() {
@@ -24,16 +26,17 @@ componentDidMount(){
 
     <section className="row cards">
       
-      {this.state.datos.filter((movie, i) => i < 4)
+      {this.state.cargando ? ( <p>Cargando...</p>) : this.state.datos.filter((movie, i) => i < 4)
       .map((movie) => (
           <Card key={movie.id} datos={movie} />
         ))
       }
-
+       
+      
     </section>
 
-    <Link to="/ver-populares">
-       <button>Ver todas</button>
+    <Link to="/vertodas/movie/popular">
+      <button className="btn btn-primary">Ver todas</button>
     </Link>
     </div>
   );
