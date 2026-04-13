@@ -60,7 +60,7 @@ cargarMas() {
             ))
           )}
         </section>
-        <button onClick={() => this.cargarMas()}>Ver más</button>
+        <button className="btn btn-info" onClick={() => this.cargarMas()}>Ver más</button>
       </div>
     );
   }

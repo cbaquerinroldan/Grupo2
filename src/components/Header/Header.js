@@ -39,7 +39,6 @@ class Header extends Component{
 
                 </nav>
 
-                <Buscador/>
             </div>
 
 

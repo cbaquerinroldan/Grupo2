@@ -36,7 +36,7 @@ componentDidMount(){
     </section>
 
     <Link to="/vertodas/movie/popular">
-      <button className="btn btn-primary">Ver todas</button>
+      <button className="btn btn-info">Ver todas</button>
     </Link>
     </div>
   );

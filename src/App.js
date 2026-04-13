@@ -21,7 +21,7 @@ function App() {
     { nombre: "Peliculas", path: "/peliculas" },
     { nombre: "Favoritos", path: "/favoritos" },
     { nombre: "Login", path: "/login" },
-    { nombre: "Crear Cuenta", path: "/crearcuenta" }
+    { nombre: "Registro", path: "/registro" }
     
   ];
 
@@ -35,7 +35,7 @@ function App() {
           <Route path="/peliculas" component={Peliculas} />
           <Route path="/detalle/:tipo/:id" component={Detalle} />
           <Route path="/login" component={Login} />
-          <Route path="/crearcuenta" component={CrearCuenta} />
+          <Route path="/registro" component={CrearCuenta} />
           <Route path="/favoritos" component={Favoritos} />
           <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
           <Route path="/vertodas/:tipo/:cate" component={VerTodas} />

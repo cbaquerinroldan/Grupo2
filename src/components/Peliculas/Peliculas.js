@@ -20,8 +20,11 @@ componentDidMount(){
       .catch(error => console.log(error))
   }
    render() {
+
   return (
+    
    <div className="container">
+
     <h2 className="alert alert-primary"> Todas las Peliculas</h2>
 
     <section className="row cards">
@@ -34,7 +37,7 @@ componentDidMount(){
 
     </section>
   <Link to="/vertodas/movie/top_rated">
-      <button className="btn btn-primary">Ver todas</button>
+      <button className="btn btn-info">Ver todas</button>
     </Link>
 
     </div>
