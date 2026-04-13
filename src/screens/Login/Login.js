@@ -5,29 +5,27 @@ import { Link } from "react-router-dom";
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { valor1: ``, valor2: `` };
+        this.state = {
+            email: "",
+            password: "",
+            error: ""
+        };
     }
-
-    evitarSubmite(event) {
+    evitarSubmit(event) {
         event.preventDefault();
     }
 
-    controlarCambiosEmail(event) {
-        this.setState({
-            valor1: event.target.value
-        },
-            () => console.log(event.target.value)
-        )
+     controlarCambiosEmail(event) {
+    this.setState({
+        email: event.target.value
+    });
+}
 
-    }
-    controlarCambiosPassword(event) {
-        this.setState({
-            valor2: event.target.value
-        },
-            () => console.log(event.target.value)
-        )
-
-    }
+controlarCambiosPassword(event) {
+    this.setState({
+        password: event.target.value
+    });
+}
 
 
     render() {
@@ -36,7 +34,7 @@ class Login extends Component {
                 <h2 class="alert alert-primary">Iniciar sesión</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <form className="" onSubmit={(e) => this.evitarSubmite(e)}>
+                        <form className="" onSubmit={(e) => this.evitarSubmit(e)}>
                             <div className="form-group">
                                 <label for="email">Email</label>
 
@@ -47,9 +45,8 @@ class Login extends Component {
                                 <label for="password">Contraseña</label>
                                 <input type="password" className="form-control" id="password" placeholder="Ingresá tu contraseña" onChange={(e) => this.controlarCambiosPassword(e)} value={this.state.valor2} />
 
-                                {
-                                    this.state.valor2.length < 6 ? <p className="alert alert-danger">La contraseña debe tener al menos 6 caracteres</p> : null
-                                }
+                               {<p>{this.state.error}</p>}
+                               
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
 
