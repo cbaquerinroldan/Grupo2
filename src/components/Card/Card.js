@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 class Card extends Component {
   constructor(props) {
@@ -21,8 +24,8 @@ cambiarEstadoFav() {
     });
   }
 
-
   render() {
+
     return (
         
       <article className="single-card-movie">
@@ -46,9 +49,12 @@ cambiarEstadoFav() {
         <button className="btn btn-primary" onClick={() => this.cambiarEstadoDesc()}>
           {this.state.verMas ? "Ver menos" : "Ver descripción"}
         </button>
-        <button className="btn alert-primary corazon" onClick={() => this.cambiarEstadoFav()}>
-          {this.state.favorito ? "♥️" : "🩶"}
+        {this.props.logueado ?(
+          <button className="btn alert-primary corazon" onClick={() => this.cambiarEstadoFav()}>
+          {this.state.favorito ? "🩶" : "♥️"}
         </button>
+        ): null}
+        
 
 </div>
       </article>

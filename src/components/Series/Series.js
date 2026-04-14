@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Card from "../Card/Card"
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
 
 class Series extends Component {
     constructor(props){
@@ -21,6 +23,7 @@ componentDidMount(){
       .catch(error => console.log(error))
   }
    render() {
+    let user = cookies.get("user-auth-cookie");
   return (
    <div className="container">       
 
@@ -30,7 +33,7 @@ componentDidMount(){
       
     {this.state.datos.filter((movie, i) => i < 4)
       .map((movie) => (
-          <Card key={movie.id} datos={movie} />
+          <Card key={movie.id} datos={movie} logueado={user ? true : false}  />
         ))
       }
 

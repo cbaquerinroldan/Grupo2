@@ -1,4 +1,3 @@
-
 nav {
     display: grid;
     grid-template-columns: 1fr;
@@ -6,50 +5,62 @@ nav {
     border-radius: 4px;
     margin-bottom: 20px;
 }
-.sectionTitulo{
+
+.sectionTitulo {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0px ;
+    padding: 10px 0px;
 }
-.cinefuria{
+
+.cinefuria {
     padding-top: 7px;
-    font-family: 'Nosifer', cursive;
-    color: orange;
-    text-shadow: 0 0 10px red, 0 0 20px orange, 0 0 30px yellow;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #6aaee8;
+    letter-spacing: 2px;
 }
-.logo{
+
+.logo {
     border-radius: 10px;
     width: 90px;
     height: 90px;
 }
 
-.corazon{
+.corazon {
     margin-left: 20px;
 }
+
 .nav {
     margin: 0 !important;
 }
-.nav a{
+
+.nav a {
     color: #444;
     text-decoration: none;
 }
-.nav a:hover{
+
+.nav a:hover {
     font-weight: bold;
 }
-.search-form, .filter-form {
+
+.search-form,
+.filter-form {
     padding: .5rem 0;
     margin-bottom: 20px;
     display: grid;
     grid-template-columns: 5fr 1fr;
     column-gap: 5px;
 }
+
 .filter-form {
     grid-template-columns: 1fr;
 }
-.search-form .btn-sm{
+
+.search-form .btn-sm {
     line-height: 1;
     font-size: 0.9rem;
 }
+
 .search-form input,
 .filter-form input {
     border: 1px solid #ccc;
@@ -60,9 +71,11 @@ nav {
     font-size: 1rem;
     padding-bottom: 4px;
 }
+
 .filter-form input {
     line-height: 1.5;
 }
+
 .cards {
     padding: 0.75rem 1.25rem;
     display: flex;
@@ -71,33 +84,42 @@ nav {
     justify-content: space-between;
     margin-bottom: 2%;
 }
+
 .cardBody {
     margin-top: 20px;
 }
+
 .single-card-people {
     width: 19%;
 }
+
 .single-card-movie {
     width: 24%;
 }
+
 .single-card-playing {
     width: 15%;
 }
-#now-playing .card-text{
+
+#now-playing .card-text {
     height: 100px;
     overflow: hidden;
 }
+
 .single-card-tv {
     width: 19%;
 }
-.tv-show .card-text{
+
+.tv-show .card-text {
     height: 100px;
     overflow: hidden;
 }
-.single-card-on-air{
+
+.single-card-on-air {
     width: 15%;
 }
-#on-air-today .card-text{
+
+#on-air-today .card-text {
     height: 100px;
     overflow: hidden;
 }
@@ -106,7 +128,7 @@ nav {
     width: 15%;
 }
 
-@media(min-width: 765px){
+@media(min-width: 765px) {
     nav {
         grid-template-columns: 1fr;
     }
