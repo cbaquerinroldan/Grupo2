@@ -1,0 +1,77 @@
+import React, { Component } from "react";
+
+class Detalle extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            detalle: ""
+        };
+    }
+
+
+    componentDidMount() {
+        const id = this.props.match.params.id;
+        const tipo = this.props.match.params.tipo;
+
+        fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=16a67828c6cd8c48f7481662c83f83ff`)
+            .then(response => response.json())
+            .then(data => this.setState({ detalle: data }))
+            .catch(error => console.log(error));
+    }
+
+    render() {
+        const tipo = this.props.match.params.tipo;
+
+
+        return (
+            <div className="container">
+                <div>{this.state.detalle !== "" ? (
+                    <div>
+
+                        <h2 className="alert alert-primary">{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h2>
+                        <section className="row">
+                            <img className="col-md-6"
+                                src={`https://image.tmdb.org/t/p/w342${this.state.detalle.poster_path}`}
+                                alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} >
+                            </img>
+
+                            <section className="col-md-6 info">
+
+                                <h3>Descripción:</h3>
+
+                                <p class="description">{this.state.detalle.overview}</p>
+
+                                <p className="mt-0">
+                                    <strong>Clasificación: </strong>{this.state.detalle.vote_average}
+                                </p>
+
+                                <p className="mt-0">
+                                    <strong> Fecha de estreno:</strong> {this.state.detalle.release_date}: {this.state.detalle.first_air_date}
+                                </p>
+
+                                {tipo === "movie" ? (<p className="mt-0 mb-0 length"> <strong> Duración: </strong> {this.state.detalle.runtime} min</p>) : null}
+
+
+                                <p>
+                                    {/* hacer bien esto de los generos 
+                                   <strong>Géneros:</strong> {this.state.detalle.genres} */}
+                                </p>
+
+                                <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
+                                    {this.state.favorito ? "🩶" : "♥️"}
+                                </button>
+                            </section>
+
+                        </section>
+                    </div>
+                ) : (
+                    <p>Cargando...</p>
+                )}
+                </div>
+            </div>
+        );
+    }
+}
+
+
+export default Detalle;
