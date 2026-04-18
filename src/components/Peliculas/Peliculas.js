@@ -34,7 +34,7 @@ let user = cookies.get("user-auth-cookie");
       
       {this.state.datos.filter((movie, i) => i < 4)
       .map((movie) => (
-          <Card key={movie.id} datos={movie}  logueado={user ? true : false} />
+          <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false} />
         ))
       }
 

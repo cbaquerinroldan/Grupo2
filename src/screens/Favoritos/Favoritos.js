@@ -8,97 +8,114 @@ class Favoritos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      favoritosPelis: [],
-      favoritosSeries: []
+      peliculas: [],
+      series: [],
+      cargadoPeliculas: false,
+      cargadoSeries: false
     };
   }
 
   componentDidMount() {
-    if (!cookies.get("user-auth-cookie")) {
-      return;
-    }
+    let user = cookies.get("user-auth-cookie");
 
-    let storagePeliculas = localStorage.getItem("favPeliculas");
-    let storageSeries = localStorage.getItem("favSeries");
+    if (user !== undefined) {
+    let pelisFav = localStorage.getItem("pelisFav");
+    let pelisFavJson = pelisFav === null ? [] : JSON.parse(pelisFav);
 
-    if (storagePeliculas !== null) {
-      let storageParseado = JSON.parse(storagePeliculas);
+      if (pelisFavJson.length === 0) {
+        this.setState({
+          cargadoPeliculas: true
+        });
+      } else {
+        let peliculasRecuperadas = [];
 
-      let peliculas = [];
+        pelisFavJson.map(id =>
+          fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=16a67828c6cd8c48f7481662c83f83ff`)
+            .then(res => res.json())
+            .then(data => {
+              peliculasRecuperadas.push(data);
 
-      storageParseado.map((id) =>
-        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=eaa57596af1d15ddb4b8b1c407e61403`)
-          .then((response) => response.json())
-          .then((data) => {
-            peliculas.push(data);
-            this.setState({
-              favoritosPelis: peliculas
-            });
-          })
-          .catch((error) => console.log(error))
-      );
-    }
+              this.setState({
+                peliculas: peliculasRecuperadas,
+                cargadoPeliculas: true
+              });
+            })
+            .catch(err => console.log(err))
+        );
+      }
+      let seriesFav = localStorage.getItem("seriesFav");
 
-    if (storageSeries !== null) {
-      let storageParseado = JSON.parse(storageSeries);
+      let seriesFavJson;
 
-      let series = [];
+      if (seriesFav === null) {
+        seriesFavJson = [];
+      } else {
+        seriesFavJson = JSON.parse(seriesFav);
+      }
 
-      storageParseado.map((id) =>
-        fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=eaa57596af1d15ddb4b8b1c407e61403`)
-          .then((response) => response.json())
-          .then((data) => {
-            series.push(data);
-            this.setState({
-              favoritosSeries: series
-            });
-          })
-          .catch((error) => console.log(error))
-      );
+      if (seriesFavJson.length === 0) {
+        this.setState({
+          cargadoSeries: true
+        });
+      } else {
+        let seriesRecuperadas = [];
+
+        seriesFavJson.map(id =>
+          fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=16a67828c6cd8c48f7481662c83f83ff`)
+            .then(res => res.json())
+            .then(data => {
+            seriesRecuperadas.push(data);
+
+              this.setState({
+                series: seriesRecuperadas,
+                cargadoSeries: true
+              });
+            })
+            .catch(err => console.log(err))
+        );
+      }
     }
   }
 
   render() {
-    if (!cookies.get("user-auth-cookie")) {
-      return <h2 className="subtitulo">Debes iniciar sesión para ver favoritos</h2>;
+    let user = cookies.get("user-auth-cookie");
+
+    if (user === undefined) {
+      return <h2>Tenés que iniciar sesión</h2>;
     }
 
     return (
-      <React.Fragment>
-        <h2 className="subtitulo">Tus Películas Favoritas</h2>
-        <section className="row-cards">
-          {this.state.favoritosPelis.length === 0 ? (
-            <h3>No tenés películas agregadas a favoritos</h3>
-          ) : (
-            this.state.favoritosPelis.map((pelicula) => (
-              <Card
-                key={pelicula.id}
-                id={pelicula.id}
-                title={pelicula.original_title}
-                image={pelicula.poster_path}
-                description={pelicula.overview}
-              />
-            ))
-          )}
-        </section>
+      <div className="container">
 
-        <h2 className="subtitulo">Tus Series Favoritas</h2>
-        <section className="row-cards">
-          {this.state.favoritosSeries.length === 0 ? (
-            <h3>No tenés series agregadas a favoritos</h3>
+        <h2 className="alert alert-primary">Películas favoritas</h2>
+
+        <div className="row cards">
+          {this.state.cargadoPeliculas === false ? (
+            <p>Cargando...</p>
+          ) : this.state.peliculas.length === 0 ? (
+            <p>No tenés películas favoritas</p>
           ) : (
-            this.state.favoritosSeries.map((serie) => (
-              <Card
-                key={serie.id}
-                id={serie.id}
-                title={serie.name}
-                image={serie.poster_path}
-                description={serie.overview}
-              />
+            this.state.peliculas.map((peli, i) => (
+              <Card key={i} datos={peli} tipo="movie" />
             ))
           )}
-        </section>
-      </React.Fragment>
+        </div>
+
+        <h2 className="alert alert-primary">Series favoritas</h2>
+
+        <div className="row cards">
+          {this.state.cargadoSeries === false ? (
+            <p>Cargando...</p>
+          ) : this.state.series.length === 0 ? (
+            <p>No tenés series favoritas</p>
+          ) : (
+            this.state.series.map((serie, i) => (
+              <Card key={i} datos={serie} tipo="tv" />
+            ))
+          )}
+        </div>
+
+      </div>
     );
   }
 }

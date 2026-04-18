@@ -37,7 +37,6 @@ class Series extends Component {
               <Card key={movie.id} datos={movie} tipo="tv" logueado={user ? true : false} />
             ))
           }
-
         </section>
 
         <Link to="/vertodas/tv/top_rated">

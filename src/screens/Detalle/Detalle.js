@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 class Detalle extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            detalle: ""
+            detalle: "",
+            favorito: false
         };
     }
-
 
     componentDidMount() {
         const id = this.props.match.params.id;
@@ -19,9 +22,62 @@ class Detalle extends Component {
             .catch(error => console.log(error));
     }
 
+    agregarFav() {
+    let tipo = this.props.match.params.tipo;
+    let id = this.state.detalle.id;
+
+    if (tipo === "movie") {
+
+        let pelisFav = localStorage.getItem("pelisFav");
+
+        if (pelisFav == null) {
+            pelisFav = [];
+        } else {
+            pelisFav = JSON.parse(pelisFav);
+        }
+
+        if (pelisFav.includes(id)) {
+            pelisFav = pelisFav.filter(peli => peli != id);
+            this.setState({
+                favorito: false
+        });
+        } else {
+            pelisFav.push(id);
+            this.setState({
+                favorito: true
+        });
+        }
+
+        localStorage.setItem("pelisFav", JSON.stringify(pelisFav));
+
+    } else {
+
+        let seriesFav = localStorage.getItem("seriesFav");
+
+        if (seriesFav == null) {
+            seriesFav = [];
+        } else {
+            seriesFav = JSON.parse(seriesFav);
+        }
+
+        if (seriesFav.includes(id)) {
+            seriesFav = seriesFav.filter(serie => serie != id);
+            this.setState({
+                favorito: false
+        });
+        } else {
+            seriesFav.push(id);
+            this.setState({
+                favorito: true
+        });
+        }
+
+        localStorage.setItem("seriesFav", JSON.stringify(seriesFav));
+    }
+}
     render() {
         const tipo = this.props.match.params.tipo;
-
+        let user = cookies.get("user-auth-cookie");
 
         return (
             <div className="container">
@@ -39,27 +95,34 @@ class Detalle extends Component {
 
                                 <h3>Descripción:</h3>
 
-                                <p class="description">{this.state.detalle.overview}</p>
+                                <p className="description">{this.state.detalle.overview}</p>
 
                                 <p className="mt-0">
                                     <strong>Clasificación: </strong>{this.state.detalle.vote_average}
                                 </p>
 
                                 <p className="mt-0">
-                                    <strong> Fecha de estreno:</strong> {this.state.detalle.release_date}: {this.state.detalle.first_air_date}
+                                    <strong> Fecha de estreno:</strong> {tipo === "movie" ? this.state.detalle.release_date : this.state.detalle.first_air_date}
                                 </p>
 
                                 {tipo === "movie" ? (<p className="mt-0 mb-0 length"> <strong> Duración: </strong> {this.state.detalle.runtime} min</p>) : null}
 
+                                {/* <p>
+                        <strong>Géneros:</strong> 
+                        {this.state.detalle.genres ? this.state.detalle.genres.map((gen, i) => (
+                                <p key={gen.id}>. no se como hacer qye se ponaga una , entre los genrros </p>
+                            ))
+                            : null
+                        }
+                        </p> */}
 
-                                <p>
-                                    {/* hacer bien esto de los generos 
-                                   <strong>Géneros:</strong> {this.state.detalle.genres} */}
-                                </p>
-
-                                <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
+                                {user ? (
+                                    <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
                                     {this.state.favorito ? "🩶" : "♥️"}
-                                </button>
+                                    </button>
+                                ) : null}
+
+
                             </section>
 
                         </section>
@@ -72,6 +135,5 @@ class Detalle extends Component {
         );
     }
 }
-
 
 export default Detalle;
