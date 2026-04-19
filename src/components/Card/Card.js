@@ -8,10 +8,52 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      verMas: false,
-      favorito: false
-      
+      favorito: false,
+      valor: "♥️",
+      verMas: false
     };
+  }
+
+  componentDidMount() {
+    let tipo = this.props.tipo;
+    let storage = localStorage.getItem(tipo);
+    let storageJson = storage == null?  [] :  JSON.parse(storage);
+
+    if (storageJson.filter(id => id === this.props.datos.id).length > 0) {
+      this.setState({
+        favorito: true,
+        valor: "🩶"
+      });
+    }
+  }
+
+  agregarFav(id, tipo) {
+    let storage = localStorage.getItem(tipo);
+    let storageJson = storage == null?  [] :  JSON.parse(storage);
+    
+    storageJson.push(id);
+    localStorage.setItem(tipo, JSON.stringify(storageJson));
+
+    this.setState({
+      favorito: true,
+      valor: "🩶"
+    });
+  }
+
+  eliminar(id, tipo) {
+    let storage = localStorage.getItem(tipo);
+    let storageJson = JSON.parse(storage);
+
+    let nuevaLista = storageJson.filter(i => i !== id);
+    localStorage.setItem(tipo, JSON.stringify(nuevaLista));
+
+    this.setState({
+      favorito: false,
+      valor: "♥️"
+    });
+     if(this.props.sacarDeFavoritos){
+      this.props.sacarDeFavoritos(id);
+  }
   }
 
   cambiarEstadoDesc() {
@@ -19,65 +61,10 @@ class Card extends Component {
       verMas: this.state.verMas === true ? false : true
     });
   }
-  agregarFav() {
-    const tipo = this.props.tipo ? this.props.tipo : "movie";
-
-    if (tipo === "movie") {
-      let pelisFav = localStorage.getItem("pelisFav");
-
-      if (pelisFav == null) {
-        pelisFav = [];
-      } else {
-        pelisFav = JSON.parse(pelisFav);
-      }
-
-      if (pelisFav.includes(this.props.datos.id)) {
-        pelisFav = pelisFav.filter(id => id !== this.props.datos.id);
-
-        this.setState({
-          favorito: false
-        });
-      } else {
-        pelisFav.push(this.props.datos.id);
-
-        this.setState({
-          favorito: true
-        });
-      }
-
-      localStorage.setItem("pelisFav", JSON.stringify(pelisFav));
-    } else {
-      let seriesFav = localStorage.getItem("seriesFav");
-
-      if (seriesFav == null) {
-        seriesFav = [];
-      } else {
-        seriesFav = JSON.parse(seriesFav);
-      }
-
-      if (seriesFav.includes(this.props.datos.id)) {
-        seriesFav = seriesFav.filter(id => id !== this.props.datos.id);
-
-        this.setState({
-          favorito: false
-        });
-      } else {
-        seriesFav.push(this.props.datos.id);
-
-        this.setState({
-          favorito: true
-        });
-      }
-
-      localStorage.setItem("seriesFav", JSON.stringify(seriesFav));
-    }
-  
-  }
-
   render() {
     let user = cookies.get("user-auth-cookie");
     const tipo = this.props.tipo ? this.props.tipo : "movie";
-    const titulo = tipo=== "movie" ? this.props.datos.title : this.props.datos.name;
+    const titulo = tipo === "movie" ? this.props.datos.title : this.props.datos.name;
 
     return (
 
@@ -106,17 +93,15 @@ class Card extends Component {
           </button>
 
           {user ? (
-            <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
-              {this.state.favorito ? "🩶" : "♥️"}
+            <button class="btn alert-primary" onClick={() => this.state.favorito === false ? this.agregarFav(this.props.datos.id, this.props.tipo) : this.eliminar(this.props.datos.id, this.props.tipo)}>
+              {this.state.valor}
             </button>
           ) : null}
-
 
         </div>
       </article>
     );
   }
-
 }
 
 export default Card;

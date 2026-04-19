@@ -13,6 +13,7 @@ class Header extends Component {
         }
     }
 
+    
     cambiarEstadoSesion() {
         this.setState({
             sesion: this.state.sesion === true ? false : true

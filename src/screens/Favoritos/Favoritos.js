@@ -27,16 +27,16 @@ class Favoritos extends Component {
           cargadoPeliculas: true
         });
       } else {
-        let peliculasRecuperadas = [];
+        let pelisRecuperadas = [];
 
         pelisFavJson.map(id =>
           fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=16a67828c6cd8c48f7481662c83f83ff`)
             .then(res => res.json())
             .then(data => {
-              peliculasRecuperadas.push(data);
+              pelisRecuperadas.push(data);
 
               this.setState({
-                peliculas: peliculasRecuperadas,
+                peliculas: pelisRecuperadas,
                 cargadoPeliculas: true
               });
             })
@@ -45,14 +45,8 @@ class Favoritos extends Component {
       }
       let seriesFav = localStorage.getItem("seriesFav");
 
-      let seriesFavJson;
-
-      if (seriesFav === null) {
-        seriesFavJson = [];
-      } else {
-        seriesFavJson = JSON.parse(seriesFav);
-      }
-
+      let seriesFavJson = seriesFav === null? [] : JSON.parse(seriesFav);
+      
       if (seriesFavJson.length === 0) {
         this.setState({
           cargadoSeries: true
@@ -76,7 +70,19 @@ class Favoritos extends Component {
       }
     }
   }
-
+    sacarDeFavoritos(id,tipo){
+      if (tipo ==="movie"){
+        let pelisFiltradas= this.state.peliculas.filter (peli => peli.id !== id)
+        this.setState({
+          peliculas: pelisFiltradas
+        })
+      }else{
+        let seriesFiltradas = this.state.series.filter(serie => serie.id !== id)
+        this.setState({
+          series: seriesFiltradas
+        })
+      }
+    }
   render() {
     let user = cookies.get("user-auth-cookie");
 
@@ -86,9 +92,7 @@ class Favoritos extends Component {
 
     return (
       <div className="container">
-
         <h2 className="alert alert-primary">Películas favoritas</h2>
-
         <div className="row cards">
           {this.state.cargadoPeliculas === false ? (
             <p>Cargando...</p>
@@ -96,7 +100,7 @@ class Favoritos extends Component {
             <p>No tenés películas favoritas</p>
           ) : (
             this.state.peliculas.map((peli, i) => (
-              <Card key={i} datos={peli} tipo="movie" />
+              <Card key={i} datos={peli} tipo="movie" sacarDeFavoritos= {(id,tipo) => this.sacarDeFavoritos(id,tipo)} />
             ))
           )}
         </div>
@@ -110,7 +114,7 @@ class Favoritos extends Component {
             <p>No tenés series favoritas</p>
           ) : (
             this.state.series.map((serie, i) => (
-              <Card key={i} datos={serie} tipo="tv" />
+              <Card key={i} datos={serie} tipo="tv" sacarDeFavoritos= {(id,tipo) => this.sacarDeFavoritos(id,tipo)} />
             ))
           )}
         </div>

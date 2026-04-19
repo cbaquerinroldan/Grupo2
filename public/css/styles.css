@@ -131,5 +131,88 @@ nav {
 @media(min-width: 765px) {
     nav {
         grid-template-columns: 1fr;
+
+    }}
+
+@media (max-width: 480px) {
+    .sectionTitulo {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
     }
+
+    .cinefuria {
+        font-size: 18px;
+        letter-spacing: 1px;
+        margin-top: 15px;
+    }
+
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    nav {
+        padding: 10px;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: row;
+        padding-left: 0px;
+    }
+
+    .nav-item {
+        margin-right: 0;
+        margin-bottom: 8px;
+        padding: 5px;
+    }
+
+    .nav-link {
+        display: flex;
+        padding: 5px;
+    }
+
+    .search-form input {
+        margin-bottom: 10px;
+    }
+
+    .cards {
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .single-card-people {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .single-card-movie {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .single-card-playing {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .single-card-tv {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .single-card-on-air {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .all-movies .single-card-movie {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
 }
+
+
+
