@@ -51,47 +51,58 @@ class ResultadoBusqueda extends Component {
   }
 
   render() {
-    
-     let tipo = this.props.match.params.tipo;
-  <Header elementosMenu={this.props.elementosMenu} />
+    let menu = [
+      { nombre: "Home", path: "/" },
+      { nombre: "Series", path: "/series" },
+      { nombre: "Peliculas", path: "/peliculas" },
+      { nombre: "Favoritos", path: "/favoritos" },
+      { nombre: "Login", path: "/login" },
+      { nombre: "Registro", path: "/registro" }
+
+    ];
+    let tipo = this.props.match.params.tipo;
+
     return (
-       <section className="container">
-      <h2 className="alert alert-primary">Resultados de búsqueda</h2>
+      <React.Fragment>
+        <Header elementosMenu={menu} />
+        <section className="container">
+          <h2 className="alert alert-primary">Resultados de búsqueda</h2>
 
-      {tipo === "todas" || tipo === "movie" ? (
-        <div>
-          <h3 className = "alert alert-primary" >Películas</h3>
-          <section className="cards">
-            {this.state.cargandoPeliculas === true ? (
-              <p>Cargando...</p>
-            ) : this.state.resultadosPeliculas.length > 0 ? (
-              this.state.resultadosPeliculas.map((movie) => (
-                <Card key={movie.id} datos={movie} tipo="movie" />
-              ))
-            ) : (
-              <p>No hay resultados de películas</p>
-            )}
-          </section>
-        </div>
-      ) : null}
+          {tipo === "todas" || tipo === "movie" ? (
+            <div>
+              <h3 className="alert alert-primary" >Películas</h3>
+              <section className="cards">
+                {this.state.cargandoPeliculas === true ? (
+                  <p>Cargando...</p>
+                ) : this.state.resultadosPeliculas.length > 0 ? (
+                  this.state.resultadosPeliculas.map((movie) => (
+                    <Card key={movie.id} datos={movie} tipo="movie" />
+                  ))
+                ) : (
+                  <p>No hay resultados de películas</p>
+                )}
+              </section>
+            </div>
+          ) : null}
 
-      {tipo === "todas" || tipo === "tv" ? (
-        <>
-          <h3 className = "alert alert-primary" >Series</h3>
-          <section className="cards">
-            {this.state.cargandoSeries === true ? (
-              <p>Cargando...</p>
-            ) : this.state.resultadosSeries.length > 0 ? (
-              this.state.resultadosSeries.map((serie) => (
-                <Card key={serie.id} datos={serie} tipo="tv" />
-              ))
-            ) : (
-              <p>No hay resultados de series</p>
-            )}
-          </section>
-        </>
-      ) : null}
-    </section>
+          {tipo === "todas" || tipo === "tv" ? (
+            <>
+              <h3 className="alert alert-primary" >Series</h3>
+              <section className="cards">
+                {this.state.cargandoSeries === true ? (
+                  <p>Cargando...</p>
+                ) : this.state.resultadosSeries.length > 0 ? (
+                  this.state.resultadosSeries.map((serie) => (
+                    <Card key={serie.id} datos={serie} tipo="tv" />
+                  ))
+                ) : (
+                  <p>No hay resultados de series</p>
+                )}
+              </section>
+            </>
+          ) : null}
+        </section>
+      </React.Fragment>
     );
   }
 }

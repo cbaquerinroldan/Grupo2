@@ -14,7 +14,7 @@ class Filtro extends Component {
 
   guardarCambios(event) {
     this.setState(
-      { valor: event.target.value}, () => this.props.filtrar(this.state.valor)
+      { valor: event.target.value }, () => this.props.filtrar(this.state.valor)
     );
   }
 

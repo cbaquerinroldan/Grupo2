@@ -77,57 +77,68 @@ class Detalle extends Component {
         }
     }
     render() {
-          <Header elementosMenu={this.props.elementosMenu} />
+        let menu = [
+            { nombre: "Home", path: "/" },
+            { nombre: "Series", path: "/series" },
+            { nombre: "Peliculas", path: "/peliculas" },
+            { nombre: "Favoritos", path: "/favoritos" },
+            { nombre: "Login", path: "/login" },
+            { nombre: "Registro", path: "/registro" }
+
+        ];
         const tipo = this.props.match.params.tipo;
         let user = cookies.get("user-auth-cookie");
 
         return (
-            <div className="container">
-                <div>{this.state.detalle !== "" ? (
-                    <div>
+            <React.Fragment>
+                <Header elementosMenu={menu} />
+                <div className="container">
+                    <div>{this.state.detalle !== "" ? (
+                        <div>
 
-                        <h2 className="alert alert-primary">{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h2>
-                        <section className="row">
-                            <img className="col-md-6"
-                                src={`https://image.tmdb.org/t/p/w342${this.state.detalle.poster_path}`}
-                                alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} >
-                            </img>
+                            <h2 className="alert alert-primary">{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h2>
+                            <section className="row">
+                                <img className="col-md-6"
+                                    src={`https://image.tmdb.org/t/p/w342${this.state.detalle.poster_path}`}
+                                    alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} >
+                                </img>
 
-                            <section className="col-md-6 info">
+                                <section className="col-md-6 info">
 
-                                <h3>Descripción:</h3>
+                                    <h3>Descripción:</h3>
 
-                                <p className="description">{this.state.detalle.overview}</p>
+                                    <p className="description">{this.state.detalle.overview}</p>
 
-                                <p className="mt-0">
-                                    <strong>Clasificación: </strong>{this.state.detalle.vote_average}
-                                </p>
+                                    <p className="mt-0">
+                                        <strong>Clasificación: </strong>{this.state.detalle.vote_average}
+                                    </p>
 
-                                <p className="mt-0">
-                                    <strong> Fecha de estreno:</strong> {tipo === "movie" ? this.state.detalle.release_date : this.state.detalle.first_air_date}
-                                </p>
+                                    <p className="mt-0">
+                                        <strong> Fecha de estreno:</strong> {tipo === "movie" ? this.state.detalle.release_date : this.state.detalle.first_air_date}
+                                    </p>
 
-                                {tipo === "movie" ? (<p className="mt-0 mb-0 length"> <strong> Duración: </strong> {this.state.detalle.runtime} min</p>) : null}
+                                    {tipo === "movie" ? (<p className="mt-0 mb-0 length"> <strong> Duración: </strong> {this.state.detalle.runtime} min</p>) : null}
 
-                                <p>
-                                    <strong>Géneros:</strong>{" "}{this.state.detalle.genres ? this.state.detalle.genres.map(gen => gen.name).join(", ") : null}
-                                </p>
-                                {user ? (
-                                    <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
-                                        {this.state.favorito ? "🩶" : "♥️"}
-                                    </button>
-                                ) : null}
+                                    <p>
+                                        <strong>Géneros:</strong>{" "}{this.state.detalle.genres ? this.state.detalle.genres.map(gen => gen.name).join(", ") : null}
+                                    </p>
+                                    {user ? (
+                                        <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
+                                            {this.state.favorito ? "🩶" : "♥️"}
+                                        </button>
+                                    ) : null}
 
+
+                                </section>
 
                             </section>
-
-                        </section>
+                        </div>
+                    ) : (
+                        <p>Cargando...</p>
+                    )}
                     </div>
-                ) : (
-                    <p>Cargando...</p>
-                )}
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

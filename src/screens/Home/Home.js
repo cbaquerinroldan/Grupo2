@@ -7,14 +7,24 @@ import Header from "../../components/Header/Header";
 
 class Home extends Component {
   render() {
-      <Header elementosMenu={this.props.elementosMenu} />
+    let menu = [
+      { nombre: "Home", path: "/" },
+      { nombre: "Series", path: "/series" },
+      { nombre: "Peliculas", path: "/peliculas" },
+      { nombre: "Favoritos", path: "/favoritos" },
+      { nombre: "Login", path: "/login" },
+      { nombre: "Registro", path: "/registro" }
+
+    ];
     return (
-      
-      <div className="container">
-        <Buscador/>
-        <Popular />
-        <Cartelera/>
-      </div>
+      <React.Fragment>
+        <Header elementosMenu={menu} />
+        <div className="container">
+          <Buscador />
+          <Popular />
+          <Cartelera />
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -6,47 +6,48 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 class Cartelera extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-     datos:[ ],
-   
-     cargando:true
+      datos: [],
+
+      cargando: true
     }
   }
 
-componentDidMount(){
+  componentDidMount() {
     fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=b545a645aca9ca390f2bb637dff787e6")
       .then(response => response.json())
       .then(data => this.setState({
-          datos: data.results,
-    
-          cargando:false}))
+        datos: data.results,
+
+        cargando: false
+      }))
       .catch(error => console.log(error))
   }
-   render() {
+  render() {
     let user = cookies.get("user-auth-cookie");
-  return (
-   <div className="container">
-    <h2 className="alert alert-primary"> Películas en Cartelera</h2>
+    return (
+      <div className="container">
+        <h2 className="alert alert-primary"> Películas en Cartelera</h2>
 
-    <section className="row cards">
-      
-       {this.state.datos.filter((movie, idx) => idx < 4)
-      .map((movie) => (
-          <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false}  />
-        ))
-      }
+        <section className="row cards">
 
-    </section>
+          {this.state.datos.filter((movie, idx) => idx < 4)
+            .map((movie) => (
+              <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false} />
+            ))
+          }
 
-     <Link to="/vertodas/movie/now_playing">
-         <button className="btn btn-info">Ver todas</button>
-       </Link>
-    
-    </div>
-  );
-}
+        </section>
+
+        <Link to="/vertodas/movie/now_playing">
+          <button className="btn btn-info">Ver todas</button>
+        </Link>
+
+      </div>
+    );
+  }
 }
 
 

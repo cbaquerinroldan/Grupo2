@@ -17,7 +17,7 @@ class Card extends Component {
   componentDidMount() {
     let tipo = this.props.tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
-    let storageJson = storage == null?  [] :  JSON.parse(storage);
+    let storageJson = storage == null ? [] : JSON.parse(storage);
 
     if (storageJson.filter(id => id === this.props.datos.id).length > 0) {
       this.setState({
@@ -52,9 +52,9 @@ class Card extends Component {
       favorito: false,
       valor: "♥️"
     });
-    if(this.props.sacarDeFavoritos){
-    this.props.sacarDeFavoritos(id, this.props.tipo);
-  }
+    if (this.props.sacarDeFavoritos) {
+      this.props.sacarDeFavoritos(id, this.props.tipo);
+    }
   }
 
   cambiarEstadoDesc() {
