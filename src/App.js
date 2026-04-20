@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Home from "./screens/Home/Home";
 import Series from "./screens/Series/Series";
 import Peliculas from "./screens/Peliculas/Peliculas";
@@ -14,15 +14,7 @@ import VerTodas from "./screens/VerTodas/VerTodas";
 
 
 function App() {
-  let menu = [
-    { nombre: "Home", path: "/" },
-    { nombre: "Series", path: "/series" },
-    { nombre: "Peliculas", path: "/peliculas" },
-    { nombre: "Favoritos", path: "/favoritos" },
-    { nombre: "Login", path: "/login" },
-    { nombre: "Registro", path: "/registro" }
 
-  ];
   return (
     <React.Fragment>
 

@@ -61,9 +61,9 @@ class Series extends Component {
 
           <section className="row cards">
 
-            {this.state.datos.filter((movie, idx) => idx < 4)
-              .map((movie) => (
-                <Card key={movie.id} datos={movie} tipo="tv" logueado={user ? true : false} />
+            {this.state.datos.filter((serie, idx) => idx < 4)
+              .map((serie) => (
+                <Card key={serie.id} datos={serie} tipo="tv" logueado={user ? true : false} />
               ))
             }
           </section>

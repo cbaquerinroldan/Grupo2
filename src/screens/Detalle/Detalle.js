@@ -38,7 +38,7 @@ class Detalle extends Component {
             }
 
             if (pelisFav.includes(id)) {
-                pelisFav = pelisFav.filter(peli => peli != id);
+                pelisFav = pelisFav.filter(peli => peli !== id);
                 this.setState({
                     favorito: false
                 });
@@ -62,7 +62,7 @@ class Detalle extends Component {
             }
 
             if (seriesFav.includes(id)) {
-                seriesFav = seriesFav.filter(serie => serie != id);
+                seriesFav = seriesFav.filter(serie => serie !== id);
                 this.setState({
                     favorito: false
                 });

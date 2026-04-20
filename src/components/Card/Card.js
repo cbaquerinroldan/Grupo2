@@ -67,13 +67,14 @@ class Card extends Component {
     const tipo = this.props.tipo ? this.props.tipo : "movie";
     const titulo = tipo === "movie" ? this.props.datos.title : this.props.datos.name;
 
+
     return (
 
       <article className="
       single-card-movie">
 
         <Link to={`/detalle/${tipo}/${this.props.datos.id}`}>
-          <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${this.props.datos.poster_path}`} alt={this.props.datos.title} />
+          <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${this.props.datos.poster_path}`} alt={titulo} />
         </Link>
         <div className="cardBody">
           <h5 className="card-title">

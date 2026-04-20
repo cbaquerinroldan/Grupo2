@@ -84,7 +84,7 @@ class VerTodas extends Component {
               <p>Cargando...</p>
             ) : (
               this.state.datos.map((movie) => (
-                <Card key={movie.id} datos={movie} />
+                <Card key={movie.id} datos={movie} tipo={this.props.match.params.tipo} />
               ))
             )}
           </section>
