@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Header from "../../components/Header/Header";
 
 class CrearCuenta extends Component {
     constructor(props) {
@@ -59,6 +60,7 @@ controlarCambiosPassword(event) {
 
 
     render() {
+        <Header elementosMenu={this.props.elementosMenu} />
         return (
             <div className="container">
                 <h2 className="alert alert-primary">Registro</h2>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import Header from "../../components/Header/Header";
 
 const cookies = new Cookies();
 
@@ -23,59 +24,60 @@ class Detalle extends Component {
     }
 
     agregarFav() {
-    let tipo = this.props.match.params.tipo;
-    let id = this.state.detalle.id;
+        let tipo = this.props.match.params.tipo;
+        let id = this.state.detalle.id;
 
-    if (tipo === "movie") {
+        if (tipo === "movie") {
 
-        let pelisFav = localStorage.getItem("pelisFav");
+            let pelisFav = localStorage.getItem("pelisFav");
 
-        if (pelisFav == null) {
-            pelisFav = [];
+            if (pelisFav == null) {
+                pelisFav = [];
+            } else {
+                pelisFav = JSON.parse(pelisFav);
+            }
+
+            if (pelisFav.includes(id)) {
+                pelisFav = pelisFav.filter(peli => peli != id);
+                this.setState({
+                    favorito: false
+                });
+            } else {
+                pelisFav.push(id);
+                this.setState({
+                    favorito: true
+                });
+            }
+
+            localStorage.setItem("pelisFav", JSON.stringify(pelisFav));
+
         } else {
-            pelisFav = JSON.parse(pelisFav);
+
+            let seriesFav = localStorage.getItem("seriesFav");
+
+            if (seriesFav == null) {
+                seriesFav = [];
+            } else {
+                seriesFav = JSON.parse(seriesFav);
+            }
+
+            if (seriesFav.includes(id)) {
+                seriesFav = seriesFav.filter(serie => serie != id);
+                this.setState({
+                    favorito: false
+                });
+            } else {
+                seriesFav.push(id);
+                this.setState({
+                    favorito: true
+                });
+            }
+
+            localStorage.setItem("seriesFav", JSON.stringify(seriesFav));
         }
-
-        if (pelisFav.includes(id)) {
-            pelisFav = pelisFav.filter(peli => peli != id);
-            this.setState({
-                favorito: false
-        });
-        } else {
-            pelisFav.push(id);
-            this.setState({
-                favorito: true
-        });
-        }
-
-        localStorage.setItem("pelisFav", JSON.stringify(pelisFav));
-
-    } else {
-
-        let seriesFav = localStorage.getItem("seriesFav");
-
-        if (seriesFav == null) {
-            seriesFav = [];
-        } else {
-            seriesFav = JSON.parse(seriesFav);
-        }
-
-        if (seriesFav.includes(id)) {
-            seriesFav = seriesFav.filter(serie => serie != id);
-            this.setState({
-                favorito: false
-        });
-        } else {
-            seriesFav.push(id);
-            this.setState({
-                favorito: true
-        });
-        }
-
-        localStorage.setItem("seriesFav", JSON.stringify(seriesFav));
     }
-}
     render() {
+          <Header elementosMenu={this.props.elementosMenu} />
         const tipo = this.props.match.params.tipo;
         let user = cookies.get("user-auth-cookie");
 
@@ -107,18 +109,12 @@ class Detalle extends Component {
 
                                 {tipo === "movie" ? (<p className="mt-0 mb-0 length"> <strong> Duración: </strong> {this.state.detalle.runtime} min</p>) : null}
 
-                                {/* <p>
-                        <strong>Géneros:</strong> 
-                        {this.state.detalle.genres ? this.state.detalle.genres.map((gen, i) => (
-                                <p key={gen.id}>. no se como hacer qye se ponaga una , entre los genrros </p>
-                            ))
-                            : null
-                        }
-                        </p> */}
-
+                                <p>
+                                    <strong>Géneros:</strong>{" "}{this.state.detalle.genres ? this.state.detalle.genres.map(gen => gen.name).join(", ") : null}
+                                </p>
                                 {user ? (
                                     <button className="btn alert-primary corazon" onClick={() => this.agregarFav()}>
-                                    {this.state.favorito ? "🩶" : "♥️"}
+                                        {this.state.favorito ? "🩶" : "♥️"}
                                     </button>
                                 ) : null}
 

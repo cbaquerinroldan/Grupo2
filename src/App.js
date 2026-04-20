@@ -15,7 +15,7 @@ import VerTodas from "./screens/VerTodas/VerTodas";
 
 
 function App() {
-  let menu = [
+let menu = [
     { nombre: "Home", path: "/" },
     { nombre: "Series", path: "/series" },
     { nombre: "Peliculas", path: "/peliculas" },
@@ -26,23 +26,23 @@ function App() {
   ];
 
   return (
-    <BrowserRouter>
- 
-        <Header elementosMenu={menu} />
+    <>
+  <Header elementosMenu={menu} />
+      
         <Switch>
-          <Route path="/" exact={true} component={Home} />
-          <Route path="/series" component={Series} />
-          <Route path="/peliculas" component={Peliculas} />
-          <Route path="/detalle/:tipo/:id" component={Detalle} />
+          <Route path="/" exact={true} component={Home}  />
+          <Route path="/series" component={Series}/>
+          <Route path="/peliculas" component={Peliculas}/>
+          <Route path="/detalle/:tipo/:id" component={Detalle}/>
           <Route path="/login" component={Login} />
           <Route path="/registro" component={CrearCuenta} />
-          <Route path="/favoritos" component={Favoritos} />
-          <Route path="/resultadobusqueda/:busqueda" component={ResultadoBusqueda} />
-          <Route path="/vertodas/:tipo/:cate" component={VerTodas} />
+          <Route path="/favoritos" component={Favoritos}/>
+          <Route path="/resultadobusqueda/:busqueda/:tipo" component={ResultadoBusqueda}/>
+          <Route path="/vertodas/:tipo/:cate" component={VerTodas}/>
           <Route path="*" component={PaginaNoEncontrada} />
         </Switch>
         <Footer/>
-    </BrowserRouter>
+    </>
   );
 }
 

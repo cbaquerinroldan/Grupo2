@@ -19,11 +19,23 @@ nav {
     color: #6aaee8;
     letter-spacing: 2px;
 }
+.contenedorRadio {
+  margin-top: 10px;
+}
 
+.contenedorRadio label {
+  margin-right: 12px;
+  font-size: 14px;
+
+}
 .logo {
     border-radius: 10px;
     width: 90px;
     height: 90px;
+}
+.cadaGenero{
+    display: inline;
+    
 }
 
 .corazon {
@@ -207,7 +219,7 @@ nav {
         margin-bottom: 15px;
     }
 
-    .all-movies .single-card-movie {
+    .all-movies {
         width: 100%;
         margin-bottom: 15px;
     }

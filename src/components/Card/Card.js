@@ -15,7 +15,7 @@ class Card extends Component {
   }
 
   componentDidMount() {
-    let tipo = this.props.tipo;
+    let tipo = this.props.tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
     let storageJson = storage == null?  [] :  JSON.parse(storage);
 
@@ -28,9 +28,9 @@ class Card extends Component {
   }
 
   agregarFav(id, tipo) {
+    tipo = tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
-    let storageJson = storage == null?  [] :  JSON.parse(storage);
-    
+    let storageJson = storage == null ? [] : JSON.parse(storage);
     storageJson.push(id);
     localStorage.setItem(tipo, JSON.stringify(storageJson));
 
@@ -41,18 +41,19 @@ class Card extends Component {
   }
 
   eliminar(id, tipo) {
+    tipo = tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
-    let storageJson = JSON.parse(storage);
+    let storageJson = storage == null ? [] : JSON.parse(storage);
 
-    let nuevaLista = storageJson.filter(i => i !== id);
+    let nuevaLista = storageJson.filter(idx => idx !== id);
     localStorage.setItem(tipo, JSON.stringify(nuevaLista));
 
     this.setState({
       favorito: false,
       valor: "♥️"
     });
-     if(this.props.sacarDeFavoritos){
-      this.props.sacarDeFavoritos(id);
+    if(this.props.sacarDeFavoritos){
+    this.props.sacarDeFavoritos(id, this.props.tipo);
   }
   }
 
@@ -93,7 +94,7 @@ class Card extends Component {
           </button>
 
           {user ? (
-            <button class="btn alert-primary" onClick={() => this.state.favorito === false ? this.agregarFav(this.props.datos.id, this.props.tipo) : this.eliminar(this.props.datos.id, this.props.tipo)}>
+            <button className="btn alert-primary" onClick={() => this.state.favorito === false ? this.agregarFav(this.props.datos.id, this.props.tipo) : this.eliminar(this.props.datos.id, this.props.tipo)}>
               {this.state.valor}
             </button>
           ) : null}

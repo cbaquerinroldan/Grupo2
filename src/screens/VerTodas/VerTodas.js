@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import Card from "../../components/Card/Card";
+import Filtro from "../../components/Filtro/Filtro";
+import Header from "../../components/Header/Header";
 
 class VerTodas extends Component {
   constructor(props) {
     super(props);
     this.state = {
       datos: [],
+       copia: [],
       cargando: true,
       page: 1
     };
@@ -20,6 +23,7 @@ class VerTodas extends Component {
       .then((data) =>
         this.setState({
           datos: data.results,
+          copia: data.results,
           cargando: false
         })
       )
@@ -38,6 +42,7 @@ cargarMas() {
           .then((data) =>
             this.setState({
               datos: this.state.datos.concat(data.results),
+              copia:this.state.datos.concat(data.results),
               cargando: false
             })
           )
@@ -46,11 +51,24 @@ cargarMas() {
     )
   }
 
+
+filtrarTodas(input) {
+    let tipo = this.props.match.params.tipo;
+    let todasFiltradas = this.state.copia.filter((cadaUna) => {
+    let tipoIngresado = tipo === "movie" ? cadaUna.title : cadaUna.name;
+    return tipoIngresado.toLowerCase().includes(input.toLowerCase());
+  });
+
+    this.setState({
+      datos: todasFiltradas
+    });
+  }
   render() {
+      <Header elementosMenu={this.props.elementosMenu} />
     return (
       <div className="container">
         <h2 className="alert alert-primary">Ver todas</h2>
-
+          <Filtro filtrar={(input) => this.filtrarTodas(input)} />
         <section className="row cards">
           {this.state.cargando ? (
             <p>Cargando...</p>

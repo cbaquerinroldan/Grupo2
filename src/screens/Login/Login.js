@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Header from "../../components/Header/Header";
 
 const cookies = new Cookies()
 
@@ -30,11 +31,13 @@ class Login extends Component {
         let usuarioFiltrado = usuarios.filter(function (usuario) {
             return usuario.email === email && usuario.password === password;
         });
+        console.log(usuarioFiltrado)
         let user= null
         if (usuarioFiltrado.length > 0) {
             user = usuarioFiltrado
+            console.log(user)
         if (user){
-            cookies.set("user-auth-cookie", user.email);
+            cookies.set("user-auth-cookie", user[0].email);
 
             this.setState({
                 error: "" });
@@ -59,6 +62,7 @@ class Login extends Component {
 
 
     render() {
+          <Header elementosMenu={this.props.elementosMenu} />
         return (
             <div className="container">
                 <h2 className="alert alert-primary">Iniciar sesión</h2>

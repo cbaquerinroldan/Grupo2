@@ -19,6 +19,7 @@ componentDidMount(){
       .then(response => response.json())
       .then(data => this.setState({
           datos: data.results,
+      
           cargando:false}))
       .catch(error => console.log(error))
   }
@@ -30,7 +31,7 @@ componentDidMount(){
 
     <section className="row cards">
       
-      {this.state.cargando ? ( <p>Cargando...</p>) : this.state.datos.filter((movie, i) => i < 4)
+      {this.state.cargando ? ( <p>Cargando...</p>) : this.state.datos.filter((movie, idx) => idx < 4)
       .map((movie) => (
           <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false}  />
         ))

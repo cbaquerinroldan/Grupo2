@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Card from "../../components/Card/Card";
 import Cookies from "universal-cookie";
-
+import Header from "../../components/Header/Header";
 const cookies = new Cookies();
 
 class Favoritos extends Component {
@@ -84,6 +84,7 @@ class Favoritos extends Component {
       }
     }
   render() {
+      <Header elementosMenu={this.props.elementosMenu} />
     let user = cookies.get("user-auth-cookie");
 
     if (user === undefined) {
