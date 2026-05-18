@@ -1,33 +1,26 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class Filtro extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      valor: ""
-    };
-  }
-
-  evitarSubmit(event) {
+function Filtro () {
+ const [valor, setValor] = useState("")
+  
+  function evitarSubmit(event) {
     event.preventDefault();
   }
 
-  guardarCambios(event) {
-    this.setState(
-      { valor: event.target.value }, () => this.props.filtrar(this.state.valor)
-    );
+  function guardarCambios(event) {
+    setValor ( event.target.value );
+    props.filtrar(valor)
   }
 
-  render() {
+ 
     return (
-      <form onSubmit={(event) => this.evitarSubmit(event)} className="filter-form px-0 mb-3">
+      <form onSubmit={(event) => evitarSubmit(event)} className="filter-form px-0 mb-3">
         <input type="text" placeholder="Buscar..."
-          onChange={(event) => this.guardarCambios(event)}
-          value={this.state.valor}
+          onChange={(event) => guardarCambios(event)}
+          value={valor}
         />
       </form>
     );
   }
-}
 
 export default Filtro;

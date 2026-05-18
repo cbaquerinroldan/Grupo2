@@ -1,21 +1,19 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import Cookies from "universal-cookie";
 import Header from "../../components/Header/Header";
+
 const cookies = new Cookies();
 
-class Favoritos extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            peliculas: [],
-            series: [],
-            cargadoPeliculas: false,
-            cargadoSeries: false
-        };
-    }
+function  Favoritos () {
+    const [peliculas, setPeliculas] = useState([])
+    const [series, setSeries]= useState([])
+    const [ cargadoPeliculas, setCargadoPeliculas]= useState(false)
+    const [cargadoSeries, setCargadoSeries]= useState(false)
+ 
 
-    componentDidMount() {
+   useEffect(
+       () => {
         let user = cookies.get("user-auth-cookie");
 
         if (user !== undefined) {
@@ -23,9 +21,7 @@ class Favoritos extends Component {
             let pelisFavJson = pelisFav === null ? [] : JSON.parse(pelisFav);
 
             if (pelisFavJson.length === 0) {
-                this.setState({
-                    cargadoPeliculas: true
-                });
+                setCargadoPeliculas(true)
             } else {
                 let pelisRecuperadas = [];
 
@@ -34,23 +30,20 @@ class Favoritos extends Component {
                         .then(res => res.json())
                         .then(data => {
                             pelisRecuperadas.push(data);
-
-                            this.setState({
-                                peliculas: pelisRecuperadas,
-                                cargadoPeliculas: true
-                            });
-                        })
-                        .catch(err => console.log(err))
-                );
-            }
+                                setPeliculas(pelisRecuperadas),
+                                setCargadoPeliculas (true)
+                            }
+                        )
+                        .catch(err => console.log(err)))
+            
             let seriesFav = localStorage.getItem("seriesFav");
 
             let seriesFavJson = seriesFav === null ? [] : JSON.parse(seriesFav);
 
             if (seriesFavJson.length === 0) {
-                this.setState({
-                    cargadoSeries: true
-                });
+                
+                setCargadoSeries (true)
+               ;
             } else {
                 let seriesRecuperadas = [];
 
@@ -59,31 +52,24 @@ class Favoritos extends Component {
                         .then(res => res.json())
                         .then(data => {
                             seriesRecuperadas.push(data);
-
-                            this.setState({
-                                series: seriesRecuperadas,
-                                cargadoSeries: true
-                            });
-                        })
+                            setSeries (seriesRecuperadas),
+                            setCargadoSeries(true)})
                         .catch(err => console.log(err))
                 );
             }
         }
     }
-    sacarDeFavoritos(id, tipo) {
+}, [])
+   function sacarDeFavoritos(id, tipo) {
         if (tipo === "movie") {
-            let pelisFiltradas = this.state.peliculas.filter(peli => peli.id !== id)
-            this.setState({
-                peliculas: pelisFiltradas
-            })
+            let pelisFiltradas = peliculas.filter(peli => peli.id !== id)
+            setPeliculas(pelisFiltradas)
         } else {
-            let seriesFiltradas = this.state.series.filter(serie => serie.id !== id)
-            this.setState({
-                series: seriesFiltradas
-            })
+            let seriesFiltradas = series.filter(serie => serie.id !== id)
+           setSeries(seriesFiltradas)
         }
     }
-    render() {
+ 
         let menu = [
             { nombre: "Home", path: "/" },
             { nombre: "Series", path: "/series" },
@@ -105,13 +91,13 @@ class Favoritos extends Component {
                 <div className="container">
                     <h2 className="alert alert-primary">Películas favoritas</h2>
                     <div className="row cards">
-                        {this.state.cargadoPeliculas === false ? (
+                        {cargadoPeliculas === false ? (
                             <p>Cargando...</p>
-                        ) : this.state.peliculas.length === 0 ? (
+                        ) : peliculas.length === 0 ? (
                             <p>No tenés películas favoritas</p>
                         ) : (
-                            this.state.peliculas.map((peli, i) => (
-                                <Card key={i} datos={peli} tipo="movie" sacarDeFavoritos={(id, tipo) => this.sacarDeFavoritos(id, tipo)} />
+                            peliculas.map((peli, i) => (
+                                <Card key={i} datos={peli} tipo="movie" sacarDeFavoritos = {(id, tipo) => sacarDeFavoritos(id, tipo)} />
                             ))
                         )}
                     </div>
@@ -119,13 +105,12 @@ class Favoritos extends Component {
                     <h2 className="alert alert-primary">Series favoritas</h2>
 
                     <div className="row cards">
-                        {this.state.cargadoSeries === false ? (
+                        {cargadoSeries === false ? (
                             <p>Cargando...</p>
-                        ) : this.state.series.length === 0 ? (
+                        ) : series.length === 0 ? (
                             <p>No tenés series favoritas</p>
-                        ) : (
-                            this.state.series.map((serie, i) => (
-                                <Card key={i} datos={serie} tipo="tv" sacarDeFavoritos={(id, tipo) => this.sacarDeFavoritos(id, tipo)} />
+                        ) : (series.map((serie, i) => (
+                                <Card key={i} datos={serie} tipo="tv" sacarDeFavoritos={(id, tipo) => sacarDeFavoritos(id, tipo)} />
                             ))
                         )}
                     </div>
@@ -133,7 +118,7 @@ class Favoritos extends Component {
                 </div>
             </React.Fragment>
         );
-    }
+    
 }
 
 export default Favoritos;

@@ -1,25 +1,20 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Header from "../../components/Header/Header";
 
 const cookies = new Cookies()
 
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            error: ""
-        };
-    }
+function Login () {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
-    evitarSubmit(event) {
+    function evitarSubmit(event) {
         event.preventDefault();
 
-        let email = this.state.email;
-        let password = this.state.password;
+        let email = email;
+        let password = password;
 
         let usuarios = localStorage.getItem("users")
         if (usuarios == null) {
@@ -38,33 +33,24 @@ class Login extends Component {
             console.log(user)
             if (user) {
                 cookies.set("user-auth-cookie", user[0].email);
-
-                this.setState({
-                    error: ""
-                });
-                this.props.history.push("/");
+            setError( "");
+            return;
+                props.history.push("/");
             }
         } else {
-            this.setState({
-                error: "Credenciales incorrectas."
-            })
+            setError("Credenciales incorrectas");
+    
         }
     }
 
-    controlarCambiosEmail(event) {
-        this.setState({
-            email: event.target.value
-        });
+    function controlarCambiosEmail(event) {
+        setEmail(event.target.value);
     }
 
-    controlarCambiosPassword(event) {
-        this.setState({
-            password: event.target.value
-        });
+    function controlarCambiosPassword(event) {
+        setPassword (event.target.value);
     }
 
-
-    render() {
         let menu = [
             { nombre: "Home", path: "/" },
             { nombre: "Series", path: "/series" },
@@ -81,18 +67,18 @@ class Login extends Component {
                     <h2 className="alert alert-primary">Iniciar sesión</h2>
                     <div className="row justify-content-center">
                         <div className="col-md-6">
-                            <form className="" onSubmit={(e) => this.evitarSubmit(e)}>
+                            <form className="" onSubmit={(e) => evitarSubmit(e)}>
                                 <div className="form-group">
                                     <label for="email">Email</label>
 
-                                    <input type="text" className="form-control" id="email" placeholder="Ingresá tu email" onChange={(e) => this.controlarCambiosEmail(e)} value={this.state.email} />
+                                    <input type="text" className="form-control" id="email" placeholder="Ingresá tu email" onChange={(e) => controlarCambiosEmail(e)} value={email} />
                                 </div>
 
                                 <div className="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input type="password" className="form-control" id="password" placeholder="Ingresá tu contraseña" onChange={(e) => this.controlarCambiosPassword(e)} value={this.state.password} />
+                                    <input type="password" className="form-control" id="password" placeholder="Ingresá tu contraseña" onChange={(e) => controlarCambiosPassword(e)} value={password} />
 
-                                    {<p>{this.state.error}</p>}
+                                    {<p>{error}</p>}
 
                                 </div>
                                 <button type="submit" className="btn btn-primary btn-block">Iniciar sesión</button>
@@ -115,7 +101,6 @@ class Login extends Component {
 
         );
     }
-}
 
 
 export default Login;

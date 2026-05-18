@@ -1,36 +1,32 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import Header from "../../components/Header/Header";
 
-class ResultadoBusqueda extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      resultadosPeliculas: [],
-      resultadosSeries: [],
-      cargandoPeliculas: true,
-      cargandoSeries: true
-    };
-  }
-  componentDidMount() {
-    let busqueda = this.props.match.params.busqueda;
-    let tipo = this.props.match.params.tipo;
+function ResultadoBusqueda () {
+    const [resultadosPeliculas, setResultadosPeliculas] = useState([])
+    const [resultadosSeries, setResultadosSeries] = useState([])
+    const [cargandoPeliculas, setCargandoPeliculas] = useState(true)
+    const [cargandoSeries, setCargandoSeries] = useState(true)
+   
+  useEffect ( 
+    () => {
+    let busqueda = props.match.params.busqueda;
+    let tipo = props.match.params.tipo;
 
     if (tipo === "todas" || tipo === "movie") {
       fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=b545a645aca9ca390f2bb637dff787e6&query=${busqueda}`
       )
         .then((res) => res.json())
-        .then((data) =>
-          this.setState({
-            resultadosPeliculas: data.results,
-            cargandoPeliculas: false
+        .then((data) => {
+            setResultadosPeliculas (data.results)
+            setCargandoPeliculas (false)
           })
-        )
+        
         .catch((error) => console.log(error));
     }
     else {
-      this.setState({ cargandoPeliculas: false });
+     setCargandoPeliculas (false);
     }
 
     if (tipo === "todas" || tipo === "tv") {
@@ -38,19 +34,18 @@ class ResultadoBusqueda extends Component {
         `https://api.themoviedb.org/3/search/tv?api_key=b545a645aca9ca390f2bb637dff787e6&query=${busqueda}`
       )
         .then((res) => res.json())
-        .then((data) =>
-          this.setState({
-            resultadosSeries: data.results,
-            cargandoSeries: false
-          })
+        .then((data) =>{
+            setResultadosSeries(data.results),
+            setCargandoSeries(false)
+          }
         )
         .catch((error) => console.log(error));
     } else {
-      this.setState({ cargandoSeries: false });
+      setCargandoSeries(false);
     }
   }
+  )
 
-  render() {
     let menu = [
       { nombre: "Home", path: "/" },
       { nombre: "Series", path: "/series" },
@@ -60,7 +55,7 @@ class ResultadoBusqueda extends Component {
       { nombre: "Registro", path: "/registro" }
 
     ];
-    let tipo = this.props.match.params.tipo;
+    let tipo = props.match.params.tipo;
 
     return (
       <React.Fragment>
@@ -72,10 +67,10 @@ class ResultadoBusqueda extends Component {
             <div>
               <h3 className="alert alert-primary" >Películas</h3>
               <section className="cards">
-                {this.state.cargandoPeliculas === true ? (
+                {cargandoPeliculas === true ? (
                   <p>Cargando...</p>
-                ) : this.state.resultadosPeliculas.length > 0 ? (
-                  this.state.resultadosPeliculas.map((movie) => (
+                ) : resultadosPeliculas.length > 0 ? (
+                  resultadosPeliculas.map((movie) => (
                     <Card key={movie.id} datos={movie} tipo="movie" />
                   ))
                 ) : (
@@ -89,10 +84,10 @@ class ResultadoBusqueda extends Component {
             <>
               <h3 className="alert alert-primary" >Series</h3>
               <section className="cards">
-                {this.state.cargandoSeries === true ? (
+                {cargandoSeries === true ? (
                   <p>Cargando...</p>
-                ) : this.state.resultadosSeries.length > 0 ? (
-                  this.state.resultadosSeries.map((serie) => (
+                ) : resultadosSeries.length > 0 ? (
+                  resultadosSeries.map((serie) => (
                     <Card key={serie.id} datos={serie} tipo="tv" />
                   ))
                 ) : (
@@ -105,6 +100,6 @@ class ResultadoBusqueda extends Component {
       </React.Fragment>
     );
   }
-}
+
 
 export default ResultadoBusqueda;

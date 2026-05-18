@@ -1,22 +1,18 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 
-class CrearCuenta extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            error: ""
-        };
-    }
+function CrearCuenta () {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    
 
-    evitarSubmit(event) {
+   function evitarSubmit(event) {
         event.preventDefault();
 
-        let email = this.state.email;
-        let password = this.state.password;
+        let email = email;
+        let password = password;
 
         let usuarios = JSON.parse(localStorage.getItem("users"))
         if (usuarios == null) {
@@ -27,39 +23,35 @@ class CrearCuenta extends Component {
         })
 
         if (password.length < 6) {
-            this.setState({ error: "La contraseña debe tener al menos 6 caracteres" });
+            setError( "La contraseña debe tener al menos 6 caracteres");
             return;
         }
         else if (emailFiltrado.length > 0) {
-            this.setState({ error: "Este email ya fue registrado" })
+            setError( "Este email ya fue registrado")
             return;
         }
         else {
             let nuevoUsuario = { email, password };
             usuarios.push(nuevoUsuario);
-            this.setState({ error: "" })
+            setError( "" )
             localStorage.setItem("email", email)
             localStorage.setItem("password", password)
             localStorage.setItem("users", JSON.stringify(usuarios));
-            this.props.history.push("/login")
+            props.history.push("/login")
 
         }
     }
 
-    controlarCambiosEmail(event) {
-        this.setState({
-            email: event.target.value
-        });
+    function controlarCambiosEmail(event) {
+        setEmail(event.target.value);
     }
 
-    controlarCambiosPassword(event) {
-        this.setState({
-            password: event.target.value
-        });
+    function controlarCambiosPassword(event) {
+        setPassword(event.target.value);
     }
 
 
-    render() {
+
         let menu = [
             { nombre: "Home", path: "/" },
             { nombre: "Series", path: "/series" },
@@ -76,17 +68,17 @@ class CrearCuenta extends Component {
                     <h2 className="alert alert-primary">Registro</h2>
                     <div className="row justify-content-center">
                         <div className="col-md-6">
-                            <form onSubmit={(e) => this.evitarSubmit(e)}>
+                            <form onSubmit={(e) => evitarSubmit(e)}>
                                 <div className="form-group">
                                     <label for="email">Email</label>
 
-                                    <input type="text" placeholder="Email" className="form-control" onChange={(e) => this.controlarCambiosEmail(e)} value={this.state.email} />
+                                    <input type="text" placeholder="Email" className="form-control" onChange={(e) => controlarCambiosEmail(e)} value={email} />
                                 </div>
                                 <div className="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input type="password" placeholder="Contraseña" className="form-control" onChange={(e) => this.controlarCambiosPassword(e)} value={this.state.password} />
+                                    <input type="password" placeholder="Contraseña" className="form-control" onChange={(e) => controlarCambiosPassword(e)} value={password} />
 
-                                    {<p>{this.state.error}</p>}
+                                    {<p>{error}</p>}
                                 </div>
                                 <button type="submit" className="btn btn-primary btn-block">Registrarse</button>
                             </form>
@@ -100,7 +92,7 @@ class CrearCuenta extends Component {
                 </div>
             </React.Fragment>
         );
-    }
+    
 }
 
 export default CrearCuenta;

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import Popular from "../../components/Popular/Popular";
 import Cartelera from "../../components/Cartelera/Cartelera"
 import Buscador from "../../components/Buscador/Buscador";
 import Header from "../../components/Header/Header";
 
 
-class Home extends Component {
-  render() {
+function Home () {
+  
     let menu = [
       { nombre: "Home", path: "/" },
       { nombre: "Series", path: "/series" },
@@ -27,6 +27,6 @@ class Home extends Component {
       </React.Fragment>
     );
   }
-}
+
 
 export default Home;

@@ -1,30 +1,19 @@
-import React, { Component } from "react";
-
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 
+
 const cookies = new Cookies();
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sesion: false
-        }
-    }
+function Header(props) {
+  const [sesion, setSesion] = useState(false);
 
-    cambiarEstadoSesion() {
-        this.setState({
-            sesion: this.state.sesion === true ? false : true
-        });
-    }
+  function logout() {
+    cookies.remove("user-auth-cookie");
+   setSesion( sesion === true ? false : true );
+  }
 
-    logout() {
-        cookies.remove("user-auth-cookie")
-        this.cambiarEstadoSesion()
-    }
-    render() {
-        let user = cookies.get("user-auth-cookie")
+  let user = cookies.get("user-auth-cookie");
 
         return (
 
@@ -38,7 +27,7 @@ class Header extends Component {
                     <ul className="nav nav-tabs my-4">
 
                         {
-                            user ? this.props.elementosMenu.map((Menu, idx) => (
+                            user ? props.elementosMenu.map((Menu, idx) => (
                                 Menu.nombre !== "Login" && Menu.nombre !== "Registro" ?
                                     <li className="nav-item" key={Menu.nombre + idx}>
                                         <Link className="nav-link" to={Menu.path}>{Menu.nombre}</Link>
@@ -49,7 +38,7 @@ class Header extends Component {
                                 :
 
 
-                                this.props.elementosMenu.map((Menu, idx) => (
+                                props.elementosMenu.map((Menu, idx) => (
                                     Menu.nombre !== "Favoritos" ?
                                         <li className="nav-item" key={Menu.nombre + idx}>
                                             <Link className="nav-link" to={Menu.path}>{Menu.nombre}</Link>
@@ -61,7 +50,7 @@ class Header extends Component {
                         {
                             user ?
                                 <li className="nav-item">
-                                    <span className="nav-link" onClick={() => this.logout()}>
+                                    <span className="nav-link" onClick={() => logout()}>
                                         Cerrar sesión
                                     </span>
                                 </li>
@@ -77,6 +66,6 @@ class Header extends Component {
 
         )
     }
-}
+
 
 export default Header;

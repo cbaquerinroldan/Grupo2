@@ -1,30 +1,24 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../Card/Card"
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-class Popular extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      datos: [],
-      cargando: true
-    }
-  }
+function Popular (props) {
+  const[ datos, setDatos] = useState ([])
+  const [cargando, setCargando ]= useState (true)
 
-  componentDidMount() {
-    fetch("https://api.themoviedb.org/3/movie/popular?api_key=b545a645aca9ca390f2bb637dff787e6")
-      .then(response => response.json())
-      .then(data => this.setState({
-        datos: data.results,
+  useEffect(
+    () => (
+      fetch("https://api.themoviedb.org/3/movie/popular?api_key=b545a645aca9ca390f2bb637dff787e6")
+        .then(response => response.json())
+        .then( data => {
+          setDatos(data.results)
+          setCargando (false)})
+        .catch(error => console.log(error))), [])
 
-        cargando: false
-      }))
-      .catch(error => console.log(error))
-  }
-  render() {
+  
     let user = cookies.get("user-auth-cookie");
     return (
       <div className="container">
@@ -32,12 +26,11 @@ class Popular extends Component {
 
         <section className="row cards">
 
-          {this.state.cargando ? (<p>Cargando...</p>) : this.state.datos.filter((movie, idx) => idx < 4)
+          {cargando ? (<p>Cargando...</p>) : datos.filter((movie, idx) => idx < 4)
             .map((movie) => (
               <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false} />
             ))
           }
-
 
         </section>
 
@@ -47,7 +40,7 @@ class Popular extends Component {
       </div>
     );
   }
-}
+
 
 
 export default Popular;

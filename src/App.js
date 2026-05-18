@@ -17,7 +17,6 @@ function App() {
 
   return (
     <React.Fragment>
-
       <Switch>
         <Route path="/" exact={true} component={Home} />
         <Route path="/series" component={Series} />

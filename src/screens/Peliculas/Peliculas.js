@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect} from "react";
 import Card from "../../components/Card/Card"
 import { Link } from "react-router-dom";
 import Filtro from "../../components/Filtro/Filtro";
@@ -7,37 +7,31 @@ import Header from "../../components/Header/Header";
 
 const cookies = new Cookies();
 
-class Peliculas extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      datos: [],
-      copia: [],
-      cargando: true
-    }
-  }
+function Peliculas () {
 
-  componentDidMount() {
+  const [datos, setDatos] = useState([])
+  const [copia, setCopia] = useState([])
+  const [cargando, setCargando] = useState(true)
+
+  useEffect(
+    () => {
     fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=16a67828c6cd8c48f7481662c83f83ff")
       .then(response => response.json())
-      .then(data => this.setState({
-        datos: data.results,
-        copia: data.results,
-        cargando: false
-      }))
-      .catch(error => console.log(error))
-  }
-
-  filtrarPelis(input) {
-    let pelisFiltradas = this.state.copia.filter((peli) =>
+      .then(data => {
+        setDatos(data.results);
+        setCopia(data.results);
+        setCargando(false);
+      })
+          x  
+      .catch(error => console.log(error)) }, [])
+  
+  function filtrarPelis(input) {
+    let pelisFiltradas = copia.filter((peli) =>
       peli.title.toLowerCase().includes(input.toLowerCase())
     );
-
-    this.setState({
-      datos: pelisFiltradas
-    });
+    setDatos(pelisFiltradas);
   }
-  render() {
+
     let menu = [
       { nombre: "Home", path: "/" },
       { nombre: "Series", path: "/series" },
@@ -55,11 +49,11 @@ class Peliculas extends Component {
         <div className="container">
 
           <h2 className="alert alert-primary"> Todas las Peliculas</h2>
-          <Filtro className="filter-form px-0 mb-3" filtrar={(input) => this.filtrarPelis(input)} />
+          <Filtro className="filter-form px-0 mb-3" filtrar ={(input) => filtrarPelis(input)} />
 
           <section className="row cards">
 
-            {this.state.datos.filter((movie, idx) => idx < 4)
+            {datos.filter((movie, idx) => idx < 4)
               .map((movie) => (
                 <Card key={movie.id} datos={movie} tipo="movie" logueado={user ? true : false} />
               ))
@@ -73,7 +67,6 @@ class Peliculas extends Component {
         </div>
       </React.Fragment>
     );
-  }
 }
 
 export default Peliculas;

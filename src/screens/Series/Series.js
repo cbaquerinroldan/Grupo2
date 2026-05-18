@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../../components/Card/Card"
 import { Link } from "react-router-dom";
 import Filtro from "../../components/Filtro/Filtro";
@@ -7,37 +7,31 @@ import Header from "../../components/Header/Header";
 
 const cookies = new Cookies();
 
-class Series extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      datos: [],
-      cargando: true,
-      copia: []
-    }
-  }
+function Series() {
+  const [datos, setDatos] = useState([]);
+  const [cargando, setCargando] = useState(true)
+  const [copia, setCopia] = useState([])
+  
 
-  componentDidMount() {
+  useEffect(
+    ()=> 
     fetch("https://api.themoviedb.org/3/tv/top_rated?api_key=16a67828c6cd8c48f7481662c83f83ff")
       .then(response => response.json())
-      .then(data => this.setState({
-        datos: data.results,
-        copia: data.results,
-        cargando: false
-      }))
-      .catch(error => console.log(error))
-  }
-  filtrarSeries(input) {
-    let seriesFiltradas = this.state.copia.filter((serie) =>
+      .then(data => {
+        setDatos(data.results)
+        setCopia(data.results)
+        setCargando(false) }
+       )
+      .catch(error => console.log(error)) , [] )
+
+  function filtrarSeries(input) {
+    let seriesFiltradas = copia.filter((serie) =>
       serie.name.toLowerCase().includes(input.toLowerCase())
     );
-
-    this.setState({
-      datos: seriesFiltradas
-    });
+    setDatos (seriesFiltradas);
   }
 
-  render() {
+
     let menu = [
       { nombre: "Home", path: "/" },
       { nombre: "Series", path: "/series" },
@@ -57,16 +51,32 @@ class Series extends Component {
 
           <h2 className="alert alert-primary"> Todas las Series</h2>
 
-          <Filtro filtrar={(input) => this.filtrarSeries(input)} />
+          <Filtro filtrar={(input) => filtrarSeries(input)} />
 
           <section className="row cards">
 
-            {this.state.datos.filter((serie, idx) => idx < 4)
+            {datos.filter((serie, idx) => idx < 4)
               .map((serie) => (
                 <Card key={serie.id} datos={serie} tipo="tv" logueado={user ? true : false} />
               ))
             }
           </section>
+         <section className="row cards">
+  {
+    cargando
+      ? <p>Cargando...</p>
+      : datos.filter((serie, idx) => idx < 4)
+          .map((serie) => (
+            <Card 
+              key={serie.id} 
+              datos={serie} 
+              tipo="tv" 
+              logueado={user ? true : false} 
+            />
+          ))
+  }
+</section>
+          
 
           <Link to="/vertodas/tv/top_rated">
             <button className="btn btn-info">Ver todas</button>
@@ -74,7 +84,7 @@ class Series extends Component {
         </div>
       </React.Fragment>
     );
-  }
 }
+
 
 export default Series;

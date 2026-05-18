@@ -1,80 +1,65 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-class Card extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favorito: false,
-      valor: "♥️",
-      verMas: false
-    };
-  }
+function Card (props){
+  const [ favorito, setEsFavorito] = useState(false)
+  const [ valor, setValor] = useState("♥️")
+  const [ verMas, setVerMas] = useState(false)
 
-  componentDidMount() {
-    let tipo = this.props.tipo === "movie" ? "pelisFav" : "seriesFav";
-    let storage = localStorage.getItem(tipo);
-    let storageJson = storage == null ? [] : JSON.parse(storage);
+    
+useEffect(
+  () => {
+    let tipo = props.tipo === "movie" ? "pelisFav" : "seriesFav";
+        let storage = localStorage.getItem(tipo);
+        let storageJson = storage == null ? [] : JSON.parse(storage);
 
-    if (storageJson.filter(id => id === this.props.datos.id).length > 0) {
-      this.setState({
-        favorito: true,
-        valor: "🩶"
-      });
-    }
-  }
+        if (storageJson.filter(id => id === props.datos.id).length > 0) {
+          setEsFavorito(true)
+          setValor("🩶")}
+  }, [])
 
-  agregarFav(id, tipo) {
+
+  function agregarFav(id, tipo) {
     tipo = tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
     let storageJson = storage == null ? [] : JSON.parse(storage);
     storageJson.push(id);
     localStorage.setItem(tipo, JSON.stringify(storageJson));
-
-    this.setState({
-      favorito: true,
-      valor: "🩶"
-    });
+    setEsFavorito(true);
+    setValor("🩶");
   }
 
-  eliminar(id, tipo) {
+  function eliminar(id, tipo) {
     tipo = tipo === "movie" ? "pelisFav" : "seriesFav";
     let storage = localStorage.getItem(tipo);
     let storageJson = storage == null ? [] : JSON.parse(storage);
-
     let nuevaLista = storageJson.filter(idx => idx !== id);
     localStorage.setItem(tipo, JSON.stringify(nuevaLista));
-
-    this.setState({
-      favorito: false,
-      valor: "♥️"
-    });
-    if (this.props.sacarDeFavoritos) {
-      this.props.sacarDeFavoritos(id, this.props.tipo);
+    setEsFavorito(false);
+    setValor("♥️")
+    if (props.sacarDeFavoritos) {
+      props.sacarDeFavoritos(id, props.tipo);
     }
   }
 
-  cambiarEstadoDesc() {
-    this.setState({
-      verMas: this.state.verMas === true ? false : true
-    });
+   function cambiarEstadoDesc() {
+    setVerMas(verMas === true ? false : true)
   }
-  render() {
+
     let user = cookies.get("user-auth-cookie");
-    const tipo = this.props.tipo ? this.props.tipo : "movie";
-    const titulo = tipo === "movie" ? this.props.datos.title : this.props.datos.name;
+    const tipo = props.tipo ? props.tipo : "movie";
+    const titulo = tipo === "movie" ? props.datos.title : props.datos.name;
 
 
     return (
 
-      <article className="
-      single-card-movie">
+      <article className= "single-card-movie">
 
-        <Link to={`/detalle/${tipo}/${this.props.datos.id}`}>
-          <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${this.props.datos.poster_path}`} alt={titulo} />
+        <Link to={`/detalle/${tipo}/${props.datos.id}`}>
+          <img className="card-img-top" src={`https://image.tmdb.org/t/p/w342${props.datos.poster_path}`} alt={titulo} />
         </Link>
         <div className="cardBody">
           <h5 className="card-title">
@@ -82,28 +67,28 @@ class Card extends Component {
           </h5>
 
           {
-            this.state.verMas === true ?
+         verMas === true ?
               <section>
-                <p className="card-text">{this.props.datos.overview}</p>
+                <p className="card-text">{props.datos.overview}</p>
               </section>
               :
               null
           }
 
-          <button className="btn btn-primary" onClick={() => this.cambiarEstadoDesc()}>
-            {this.state.verMas ? "Ver menos" : "Ver descripción"}
+          <button className="btn btn-primary" onClick={() => cambiarEstadoDesc()}>
+            {verMas ? "Ver menos" : "Ver descripción"}
           </button>
 
           {user ? (
-            <button className="btn alert-primary" onClick={() => this.state.favorito === false ? this.agregarFav(this.props.datos.id, this.props.tipo) : this.eliminar(this.props.datos.id, this.props.tipo)}>
-              {this.state.valor}
+            <button className="btn alert-primary" onClick={() => favorito === false ? agregarFav(props.datos.id, props.tipo) : eliminar(props.datos.id, props.tipo)}>
+              {valor}
             </button>
           ) : null}
 
         </div>
       </article>
     );
+  
   }
-}
 
 export default Card;
